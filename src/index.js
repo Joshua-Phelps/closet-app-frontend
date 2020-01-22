@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchItems()
     })
 
-
-    
 })
 
 
@@ -53,6 +51,10 @@ const makeItemCard = item => {
     
     const h3 = document.createElement("h3")
     h3.innerText = item["name"]
+
+    itemDiv.addEventListener("click", () => {
+        // this will remove items from showDiv and display this item 
+    })
 
     itemDiv.appendChild(h3)
     itemDiv.appendChild(img)
