@@ -3,9 +3,24 @@ items_url = "http://localhost:3000/items"
 document.addEventListener("DOMContentLoaded", () => {
     console.log("PAGE LOADED")
 
-    fetchItems()
+    const navBarClothes = document.getElementById("nav-bar-clothes")
+    navBarClothes.addEventListener("click", () => {
+        const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
+        clearShowDiv()
+        fetchItems()
+    })
+
+
+    
 })
 
+
+const clearShowDiv = () => {
+    const showDiv = document.getElementById("show-item")
+    while (showDiv.firstChild){
+        showDiv.removeChild(showDiv.firstChild)
+    }
+}
 
 
 const fetchItems = () => {
@@ -30,6 +45,8 @@ const makeItemCard = item => {
     console.log(item)
     const itemDiv = document.createElement("div")
     itemDiv.className = "card" 
+    itemDiv.style.display = ""
+    itemDiv.classList.add("item-index")
 
     const img = document.createElement("img")
     img.src = item.image_url 
