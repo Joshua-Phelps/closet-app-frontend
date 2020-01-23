@@ -8,6 +8,8 @@ let outfit_items_url = "http://localhost:3000/outfit_items"
 document.addEventListener("DOMContentLoaded", () => {
     console.log("%cPage Loaded!", "color:green;")   
 
+    // fetchOutfits()
+
     const navBarClothes = document.getElementById("nav-bar-clothes")
     navBarClothes.addEventListener("click", () => {
         const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 const clearShowDiv = () => {
-    const showDiv = document.getElementById("show-item")
+    const showDiv = document.getElementById("item-container")
     while (showDiv.firstChild){
         showDiv.removeChild(showDiv.firstChild)
     }
@@ -38,12 +40,13 @@ const seperateItems = items => {
 
 const appendItemToShowDiv = (item) => {
     const showDiv = document.getElementById("show-item")
+    const container = document.getElementById("item-container")
     const itemDiv = makeItemCard(item)
-    showDiv.appendChild(itemDiv)
+    container.appendChild(itemDiv)
 }
 
 const makeItemCard = item => {
-    console.log(item)   
+    // console.log(item)   
     allItemsArray.push(item)
     const itemDiv = document.createElement("div")
     itemDiv.className = "card" 
@@ -65,6 +68,9 @@ const makeItemCard = item => {
 
     itemDiv.addEventListener("click", () => {
         // this will remove items from showDiv and display this item 
+        clearShowDiv()
+        makeItem(item)
+        // console.log(item)
     })
 
     itemDiv.appendChild(h3)
@@ -200,10 +206,6 @@ const addItemtoDB = item => {
 }
 
 
-    fetchOutfits()
-})
-
-
 const fetchOutfits = () => {
     fetch(outfits_url)   
     .then(resp => resp.json())
@@ -246,52 +248,95 @@ const displayOutfit = outfit => {
 
 
 
+// START AMY'S CODE
 const itemsArray = (itemsArray) => {
     // itemsArray.forEach(item => console.log(item))
     itemsArray.forEach(item => makeItem(item))
 }
 
 const makeItem = (item) => {
-    let showItem = document.getElementById("show-item")
+    // let showItem = document.getElementById("show-item")
     let itemDiv = document.getElementById("item-container")
 
     let img = document.createElement("img")
     img.classList.add("item-image")
     img.src = item.image_url
+    // console.log(item)
 
     let ul = document.createElement("ul")
 
     let nameLi = document.createElement("h2")
     nameLi.textContent = item.name
 
-    let categoryLi = document.createElement("li")
-    categoryLi.textContent = item.category
-
     let timesWornLi = document.createElement("li")
-    timesWornLi.textContent = item.times_worn
+    timesWornLi.textContent = `Times Worn: ${item.times_worn}`
+
+    let categoriesLi = document.createElement("li")
+    categoriesLi.textContent = "Categories:"
+
+    let itemCategoriesUl = document.createElement("ul")
+    item.categories.forEach(outfit => {
+        let itemCategoriesLi = document.createElement("li")
+        itemCategoriesLi.textContent = outfit.name
+
+        itemCategoriesUl.appendChild(itemCategoriesLi)
+    })
+
+    let outfitsLi = document.createElement("li")
+    outfitsLi.textContent = "Outfits:"
 
     // iterate thru outfits array
-    // let itemOutfitsLi = document.createElement("li")
-    // itemOutfitsLi.textContent = item.outfit.name
+    let itemOutfitsUl = document.createElement("ul")
+    item.outfits.forEach(outfit => {
+        let itemOutfitsLi = document.createElement("li")
+        itemOutfitsLi.textContent = outfit.name
 
-    // favorite button
+        itemOutfitsUl.appendChild(itemOutfitsLi)
+    })
+    
+    // add to favorites (toggle heart button)
+    let favItemBtn = document.createElement("button")
+    favItemBtn.textContent = "Add to Favorites"
+    favItemBtn.addEventListener("click", () => {
+        // console.log(e)
+    })
 
+    // add to outfit button
+    // drop down menu
+    let addItemToOutfitBtn = document.createElement("button")
+    addItemToOutfitBtn.textContent = "Add to Outfit"
+    addItemToOutfitBtn.addEventListener("click", () => {
+        // console.log(e)
+    })
 
-    // delete button
-    let deleteBtn = document.createElement("button")
-    deleteBtn.textContent = "Remove from closet"
-    deleteBtn.addEventListener("click", () => {
+    // edit item button
+    let editItemBtn = document.createElement("button")
+    editItemBtn.textContent = "Edit Item"
+    editItemBtn.addEventListener("click", () => {
+        // console.log(e)
+        // editItemForm(item) 
+    })
+
+    // delete item button
+    let deleteItemBtn = document.createElement("button")
+    deleteItemBtn.textContent = "Remove From Closet"
+    deleteItemBtn.addEventListener("click", () => {
         itemDiv.remove()
     })
     
-    showItem.appendChild(itemDiv)
+    // showItem.appendChild(itemDiv)
     itemDiv.appendChild(img)
     itemDiv.appendChild(ul)
     itemDiv.appendChild(nameLi)
-    itemDiv.appendChild(categoryLi)
     itemDiv.appendChild(timesWornLi)
-    itemDiv.appendChild(deleteBtn)
-    // itemDiv.appendChild(itemOutfitsLi)
+    itemDiv.appendChild(categoriesLi)
+    itemDiv.appendChild(itemCategoriesUl)
+    itemDiv.appendChild(outfitsLi)
+    itemDiv.appendChild(itemOutfitsUl)
+    itemDiv.appendChild(favItemBtn)
+    itemDiv.appendChild(addItemToOutfitBtn)
+    itemDiv.appendChild(editItemBtn)
+    itemDiv.appendChild(deleteItemBtn)
 
     // console.log(item)
 }
@@ -302,3 +347,13 @@ const makeItem = (item) => {
 //         method: "DELETE"
 //     })
 // }
+
+
+// const editItemForm = (item) => {
+//     let formDiv = document.getElementById("edit-item")
+
+//     let editForm = document.getElementById("edit-form")
+//     let editName = document.createElement("")
+// }
+
+// END AMY'S CODE
