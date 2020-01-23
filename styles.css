@@ -1,6 +1,11 @@
-/*#show-item {
-    max-width: 500px; 
-}*/
+#show-item {
+    border: grey solid 1px;
+    text-align: center;
+    padding: 1rem;
+    /* width: 15rem;
+    height: 25rem; */
+    /* display: inline-grid; */
+    margin: 1rem 2rem;
 
 #show-item {
   border: grey solid 1px;
@@ -12,6 +17,10 @@
   height: 25rem; */
   /* display: inline-grid; */
   /* margin: 1rem 2rem; */
+}
+img {
+    max-width:100%;
+    height:auto;
 }
 
 #item-container {

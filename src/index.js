@@ -7,18 +7,44 @@ let outfit_items_url = "http://localhost:3000/outfit_items"
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("%cPage Loaded!", "color:green;")   
+    
+    const navBarOutfits = document.getElementById("nav-bar-outfits")
+    navBarOutfits.addEventListener("mouseover", mouseOver)
+    navBarOutfits.addEventListener("mouseout", mouseOut)
 
-    // fetchOutfits()
-
+    navBarOutfits.addEventListener("click", () => {
+        clearShowDiv()
+        fetchOutfits()
+    })
+    
     const navBarClothes = document.getElementById("nav-bar-clothes")
+    navBarClothes.addEventListener("mouseover", mouseOverToo)
+    navBarClothes.addEventListener("mouseout", mouseOutToo) 
+    
     navBarClothes.addEventListener("click", () => {
-        const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
+        // const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
         clearShowDiv()
         fetchItems()
         getCategories()
         makeAddItemFormButton()
     })
 })
+
+let mouseOver = () => {
+    document.getElementById("nav-bar-outfits").style.color = "aqua"
+}
+
+let mouseOut = () => {
+    document.getElementById("nav-bar-outfits").style.color = "black" 
+}
+
+let mouseOverToo = () => {
+    document.getElementById("nav-bar-clothes").style.color = "aqua"     
+}
+
+let mouseOutToo = () => {
+    document.getElementById("nav-bar-clothes").style.color = "black" 
+}
 
 const clearShowDiv = () => {
     const showDiv = document.getElementById("item-container")
@@ -46,7 +72,7 @@ const appendItemToShowDiv = (item) => {
 }
 
 const makeItemCard = item => {
-    // console.log(item)   
+    //console.log(item)   
     allItemsArray.push(item)
     const itemDiv = document.createElement("div")
     itemDiv.className = "card" 
@@ -68,9 +94,9 @@ const makeItemCard = item => {
 
     itemDiv.addEventListener("click", () => {
         // this will remove items from showDiv and display this item 
+        console.log(item)
         clearShowDiv()
-        makeItem(item)
-        // console.log(item)
+        makeItem(item) 
     })
 
     itemDiv.appendChild(h3)
@@ -220,30 +246,38 @@ const outfitItemsArray = (outfitItemsArray) => {
 
 const displayOutfit = outfit => {
     console.log(outfit) 
-    let outfitList = document.getElementById("show-item") 
+    //let outfitList = document.getElementById("show-item") 
+    let outfitList = document.getElementById("item-container") 
     let outfitSpan = document.createElement("span")
-    outfitSpan.textContent = outfit.name
+    outfitSpan.textContent = `Outfit Name- ${outfit.name}`
     let outfitImg = document.createElement("img")
     //console.log(outfit.items) 
+    //outfitImg.src = outfit.items[0].image_url  
     outfit.items.forEach(item => 
         outfitImg.src = item.image_url 
-        )
+    )
   //outfitImg.src = outfit.items[0].image_url  
     let wornOutfit = document.createElement("p") 
     outfit.items.forEach(item =>
         wornOutfit.textContent = item.times_worn 
-        )
+    )
 
-        let favoriteOutfit = document.createElement("p")
+    let favoriteOutfit = document.createElement("p")
         outfit.items.forEach(item =>
-           favoriteOutfit.textContent = item.favorite  
-        )
+        favoriteOutfit.textContent = item.favorite  
+    )
+
+    outfitImg.addEventListener("click", () => {
+        clearShowDiv()
+        showOutfit(outfit)
+    })
 
     
     outfitList.appendChild(outfitImg)  
     outfitList.appendChild(outfitSpan)
     outfitList.appendChild(wornOutfit)
-    outfitList.appendChild(favoriteOutfit)   
+    outfitList.appendChild(favoriteOutfit)
+    //outfitList.appendChild(createdAt)    
 }
 
 
@@ -348,12 +382,96 @@ const makeItem = (item) => {
 //     })
 // }
 
+const showOutfit = outfit => {
+    clearShowDiv()
+    const container = document.getElementById("item-container")
+    const outFitDiv = document.createElement("div")
+    const h2 = document.createElement('h2')
+    h2.innerText = outfit.name 
+    outFitDiv.appendChild(h2)
+    const editOutfitbutton = document.createElement('button')
+    editOutfitbutton.innerText = 'Edit Outfit'
+    outFitDiv.appendChild(editOutfitbutton)
+    editOutfitbutton.addEventListener("click", () => {
+        displayEditOutfitForm(outfit)
+        editOutfit(outfit)
+        console.log(outfit)
+    })
+    const deleteOutfitButton = document.createElement("button")
+    container.appendChild(deleteOutfitButton)
+    deleteOutfitButton.innerText = "Delete Outfit"
+    deleteOutfitButton.addEventListener("click", () => {
+        deleteOutfit(outfit)
+        outFitDiv.remove()
+    })
+    
+    outfit.items.forEach(item => {
+        const itemDiv = document.createElement("div")
+        const img = document.createElement('img')
+        itemDiv.innerText = item['name']
+        img.src = item.image_url 
+        const removeButton = document.createElement("button")
+        removeButton.innerText = "Remove from Outfit"
+        removeButton.addEventListener("click", () => {
+            removeItemFromOutfit(outfit, item)
+            itemDiv.remove()
+        })
+        itemDiv.appendChild(img)
+        itemDiv.appendChild(removeButton)
+        outFitDiv.appendChild(itemDiv)
+    })
+    container.appendChild(outFitDiv)
+}
 
-// const editItemForm = (item) => {
-//     let formDiv = document.getElementById("edit-item")
+const removeItemFromOutfit = (outfit, item) => {
+    fetch("http://localhost:3000/outfit_items/1", {
+        method: "DELETE",
+        headers: {
+            "Content_type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+           outfit: outfit.id,
+           item: item.id
+        })
+    })
+}
 
-//     let editForm = document.getElementById("edit-form")
-//     let editName = document.createElement("")
-// }
+const deleteOutfit = outfit => {
+    console.log(outfit)
+    fetch(`http://localhost:3000/outfits/${outfit.id}`, {
+        method: "DELETE"
+    })
+}
 
-// END AMY'S CODE
+const displayEditOutfitForm = outfit => {
+    const editFormDiv = document.getElementById('add-item')
+    const editForm = document.getElementById("outfit-edit-form")
+    editFormDiv.appendChild(editForm)
+    editForm.style.display = ''
+    editForm['name'].value = outfit.name
+}
+
+const editOutfit = outfit => {
+    const editForm = document.getElementById('outfit-edit-form')
+    editForm.addEventListener("submit", (e) => {
+        e.preventDefault()
+        editedOutfit = {
+            name: e.target.name.value,
+            id: outfit.id 
+        }
+        editForm.style.display = 'none'
+        updateOutfit(editedOutfit)
+    })
+}
+
+const updateOutfit = outfit => {
+    fetch(`http://localhost:3000/outfits/${outfit.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(outfit)
+    }).then(res => res.json()).then(json => showOutfit(json))
+}
