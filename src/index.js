@@ -18,36 +18,6 @@ const itemsArray = (itemsArray) => {
     itemsArray.forEach(item => makeItem(item))
 }
 
-// <!-- Show Items -->
-// <div id="show-item">
-// <div id="item-container">
-//   <div id="item-image">
-//     <div id="item-description">
-//       <ul id="item-info">
-        
-//       </ul>
-//     </div>
-//   </div>
-// </div>
-// </div>
-
-
-// create_table "items", force: :cascade do |t|
-// t.string "image_url"
-// t.string "name"
-// t.integer "times_worn"
-// t.boolean "favorite"
-// t.integer "user_id", null: false
-// t.datetime "created_at", precision: 6, null: false
-// t.datetime "updated_at", precision: 6, null: false
-// t.index ["user_id"], name: "index_items_on_user_id"
-// end
-
-// const appendItem = (item) =>{
-//     let showItem = document.getElementById("show-item")
-
-// } 
-
 const makeItem = (item) => {
     let showItem = document.getElementById("show-item")
     let itemDiv = document.getElementById("item-container")
