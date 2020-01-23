@@ -178,7 +178,9 @@ const showAddItemForm = () => {
             name: e.target["clothing-name"].value,
             image_url: e.target["image-url"].value,
             user_id: 1,
-            category_ids: checked 
+            category_ids: checked, 
+            times_worn: 0,
+            favortite: false
         } 
         addItemtoDB(newItem)
     })
