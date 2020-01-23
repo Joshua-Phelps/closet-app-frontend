@@ -7,7 +7,8 @@ let outfit_items_url = "http://localhost:3000/outfit_items"
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("%cPage Loaded!", "color:green;")   
-
+    fetchOutfits()
+    
     const navBarClothes = document.getElementById("nav-bar-clothes")
     navBarClothes.addEventListener("click", () => {
         const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
@@ -200,10 +201,6 @@ const addItemtoDB = item => {
 }
 
 
-    fetchOutfits()
-})
-
-
 const fetchOutfits = () => {
     fetch(outfits_url)   
     .then(resp => resp.json())
@@ -227,15 +224,15 @@ const displayOutfit = outfit => {
         outfitImg.src = item.image_url 
         )
   //outfitImg.src = outfit.items[0].image_url  
-    let wornOutfit = document.createElement("p") 
-    outfit.items.forEach(item =>
-        wornOutfit.textContent = item.times_worn 
-        )
-
-        let favoriteOutfit = document.createElement("p")
+        let wornOutfit = document.createElement("p") 
         outfit.items.forEach(item =>
-           favoriteOutfit.textContent = item.favorite  
-        )
+            wornOutfit.textContent = item.times_worn 
+            )
+
+                let favoriteOutfit = document.createElement("p")
+                outfit.items.forEach(item =>
+                favoriteOutfit.textContent = item.favorite  
+                )
 
     
     outfitList.appendChild(outfitImg)  
