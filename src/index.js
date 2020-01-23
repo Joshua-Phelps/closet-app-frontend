@@ -1,7 +1,7 @@
 items_url = "http://localhost:3000/items"
 categories_url = "http://localhost:3000/categories"
 const allItemsArray = []
-const allCategoriesArray = []
+// const allCategoriesArray = []
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("PAGE LOADED")
@@ -30,11 +30,11 @@ const fetchItems = () => {
 }
 
 const seperateItems = items => {
-    items.forEach(item => appendToShowDiv(item) )
+    items.forEach(item => appendItemToShowDiv(item) )
 }
 
 
-const appendToShowDiv = (item) => {
+const appendItemToShowDiv = (item) => {
     const showDiv = document.getElementById("show-item")
     const itemDiv = makeItemCard(item)
     showDiv.appendChild(itemDiv)
@@ -192,7 +192,7 @@ const addItemtoDB = item => {
             "Accept": "application/json"
         },
         body: JSON.stringify(item)
-    }).then(res => res.json()).then(json => console.log(json))
+    }).then(res => res.json()).then(json => appendItemToShowDiv(json))
 }
 
 
