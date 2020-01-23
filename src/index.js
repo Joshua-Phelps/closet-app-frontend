@@ -1,6 +1,7 @@
 items_url = "http://localhost:3000/items"
 categories_url = "http://localhost:3000/categories"
 const allItemsArray = []
+const allCategoriesArray = []
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("PAGE LOADED")
@@ -11,10 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clearShowDiv()
         fetchItems()
         getCategories()
+        makeAddItemFormButton()
     })
-
-    // getCategories()
-
 })
 
 const clearShowDiv = () => {
@@ -54,7 +53,7 @@ const makeItemCard = item => {
     categoriesIdArray = item.categories.map(cat => `(${cat.id})`)
     categoriesSpan.innerText = `${categoriesIdArray}`
     categoriesSpan.id = `category-span-${item.id}`
-    // categoriesSpan.style.display = "none"
+    categoriesSpan.style.display = "none"
 
     const img = document.createElement("img")
     img.src = item.image_url 
@@ -88,7 +87,23 @@ const seperateCategories = categories => {
     ul.id = "category-display-ul"
     categoriesDiv.appendChild(ul)
 
+    const ul2 = document.createElement('ul')
+    ul2.id ="category-display-form-ul"
+    const addItemForm = document.getElementById("add-item-form")
+    addItemForm.appendChild(ul2)
+
     categories.forEach(category => appendToCategoriesDiv(category))
+
+    categories.forEach(category => {
+        const li = document.createElement("li")
+        const input = document.createElement("INPUT")
+        input.setAttribute("type", "checkbox")
+        input.name = category.id
+        input.className = "checkbox-submit"
+        li.innerText = category["name"]
+        li.appendChild(input)
+        ul2.appendChild(li)
+    })
 }
 
 const appendToCategoriesDiv = (category)  => {
@@ -124,12 +139,60 @@ const makeCategoriesCard = category => {
                 itemDiv.style.display = ""
         })
     })
-
-
-    
     li.appendChild(input)
     return li 
+}
 
+const makeAddItemFormButton = () => {
+    const addFormDiv = document.getElementById("add-item") 
+    const button = document.createElement("button")
+    button.innerText = "Add Clothing"
+    addFormDiv.appendChild(button)
+    button.addEventListener("click", () => {
+        button.style.display = "none"
+        showAddItemForm()
+    })
+}
+
+
+const showAddItemForm = () => {
+    const form = document.getElementById("add-item-form")
+    const addFormDiv = document.getElementById("add-item")
+    addFormDiv.appendChild.form
+    const submitButton = document.createElement("INPUT")
+    submitButton.setAttribute("type", "submit")
+    submitButton.innerText = "submit"
+    form.appendChild(submitButton)
+    form.style.display = ""
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        let checkboxes = Array.from(document.getElementsByClassName("checkbox-submit"))
+        let checked = []
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked === true){
+                console.log(checkbox['name'])
+                checked.push(parseInt(checkbox['name']))
+            } 
+        })
+        const newItem = {
+            name: e.target["clothing-name"].value,
+            image_url: e.target["image-url"].value,
+            user_id: 1,
+            category_ids: checked 
+        } 
+        addItemtoDB(newItem)
+    })
+}
+
+const addItemtoDB = item => {
+    fetch(items_url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(item)
+    }).then(res => res.json()).then(json => console.log(json))
 }
 
 
