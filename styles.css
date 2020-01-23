@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/*#show-item {
-    max-width: 500px; 
-}*/
-=======
 #show-item {
     border: grey solid 1px;
     text-align: center;
@@ -58,4 +53,3 @@ max-height: 25vw;
 body {
 margin: 0;
 }
->>>>>>> feature

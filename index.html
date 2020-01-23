@@ -10,8 +10,8 @@
     <!-- Nav Bar -->
     <div id="nav-bar">
       <ul>
-      <li id ="nav-bar-clothes"><span id ="nav-bar-clothes-clicked">Clothes</span></li>
-      <li>Outfits</li>
+      <li id="nav-bar-clothes"><span id ="nav-bar-clothes-clicked">Clothes</span></li>
+      <li id="nav-bar-outfits">Outfits</li>
      </ul>
     </div>
 
@@ -58,9 +58,13 @@
       <input type="text" name="clothing-name"><br>
       Image URL:<br>
       <input type="text" name="image-url"><br>
-
       <input type="hidden" name="user-id" value="1"><br>
-     
+    </form>
+
+    <form class="form" style="display: none" id="outfit-edit-form">
+      Name:<br>
+      <input type="text" name="name"><br>
+      <input type="submit" value="Submit">
     </form>
 
   <!-- script stays on bottom of body -->
