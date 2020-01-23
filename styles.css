@@ -1,0 +1,55 @@
+#show-item {
+    border: grey solid 1px;
+    text-align: center;
+    padding: 1rem;
+    /* width: 15rem;
+    height: 25rem; */
+    /* display: inline-grid; */
+    margin: 1rem 2rem;
+
+}
+
+#item-container {
+    border: grey solid 1px;
+    text-align: left;
+    padding: 1rem;
+    width: 50rem;
+    height: 40rem;
+    display: inline-grid;
+    margin: 1rem 2rem;
+    /* display: flex; */
+    flex-flow: column;
+    align-items: left;
+}
+
+/* #dog-info {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  } */
+  
+#item-container img {
+max-width: 40vw;
+max-height: 25vw;
+}
+
+/* .item-image {
+    justify-self: center;
+    height: 30rem;
+    width: auto;
+  } */
+
+/* img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+  } */
+
+/* #item-container ul {
+    align-items: left;
+} */
+
+body {
+margin: 0;
+}
