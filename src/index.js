@@ -7,9 +7,20 @@ let outfit_items_url = "http://localhost:3000/outfit_items"
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("%cPage Loaded!", "color:green;")   
-    fetchOutfits()
+    
+    const navBarOutfits = document.getElementById("nav-bar-outfits")
+    navBarOutfits.addEventListener("mouseover", mouseOver)
+    navBarOutfits.addEventListener("mouseout", mouseOut)
+
+    navBarOutfits.addEventListener("click", () => {
+        clearShowDiv()
+        fetchOutfits()
+    })
     
     const navBarClothes = document.getElementById("nav-bar-clothes")
+    navBarClothes.addEventListener("mouseover", mouseOverToo)
+    navBarClothes.addEventListener("mouseout", mouseOutToo) 
+    
     navBarClothes.addEventListener("click", () => {
         const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
         clearShowDiv()
@@ -19,8 +30,24 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
+let mouseOver = () => {
+    document.getElementById("nav-bar-outfits").style.color = "aqua"
+}
+
+let mouseOut = () => {
+    document.getElementById("nav-bar-outfits").style.color = "black" 
+}
+
+let mouseOverToo = () => {
+    document.getElementById("nav-bar-clothes").style.color = "aqua"     
+}
+
+let mouseOutToo = () => {
+    document.getElementById("nav-bar-clothes").style.color = "black" 
+}
+
 const clearShowDiv = () => {
-    const showDiv = document.getElementById("show-item")
+    const showDiv = document.getElementById("item-container") 
     while (showDiv.firstChild){
         showDiv.removeChild(showDiv.firstChild)
     }
@@ -44,7 +71,7 @@ const appendItemToShowDiv = (item) => {
 }
 
 const makeItemCard = item => {
-    console.log(item)   
+    //console.log(item)   
     allItemsArray.push(item)
     const itemDiv = document.createElement("div")
     itemDiv.className = "card" 
@@ -215,30 +242,35 @@ const outfitItemsArray = (outfitItemsArray) => {
 
 const displayOutfit = outfit => {
     console.log(outfit) 
-    let outfitList = document.getElementById("show-item") 
+    //let outfitList = document.getElementById("show-item") 
+    let outfitList = document.getElementById("item-container") 
     let outfitSpan = document.createElement("span")
-    outfitSpan.textContent = outfit.name
+    outfitSpan.textContent = `Outfit Name- ${outfit.name}`
     let outfitImg = document.createElement("img")
     //console.log(outfit.items) 
+    //outfitImg.src = outfit.items[0].image_url  
     outfit.items.forEach(item => 
-        outfitImg.src = item.image_url 
-        )
-  //outfitImg.src = outfit.items[0].image_url  
-        let wornOutfit = document.createElement("p") 
-        outfit.items.forEach(item =>
-            wornOutfit.textContent = item.times_worn 
+    outfitImg.src = item.image_url 
+    )
+            let wornOutfit = document.createElement("p") 
+            outfit.items.forEach(item =>
+            wornOutfit.textContent = `Worn ${item.times_worn} times` 
             )
-
-                let favoriteOutfit = document.createElement("p")
-                outfit.items.forEach(item =>
-                favoriteOutfit.textContent = item.favorite  
-                )
+                    let favoriteOutfit = document.createElement("p")
+                    outfit.items.forEach(item =>
+                    favoriteOutfit.textContent = `Favorite Outfit? (${item.favorite})`  
+                    )
+                        // let createdAt = document.createElement("p")
+                        // outfit.items.forEach(item =>
+                        // createdAt.textContent = `Created At ${item.created_at}`    
+                        // )
 
     
     outfitList.appendChild(outfitImg)  
     outfitList.appendChild(outfitSpan)
     outfitList.appendChild(wornOutfit)
-    outfitList.appendChild(favoriteOutfit)   
+    outfitList.appendChild(favoriteOutfit)
+    //outfitList.appendChild(createdAt)    
 }
 
 

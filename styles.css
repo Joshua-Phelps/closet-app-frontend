@@ -8,6 +8,10 @@
     margin: 1rem 2rem;
 
 }
+img {
+    max-width:100%;
+    height:auto;
+}
 
 #item-container {
     border: grey solid 1px;
