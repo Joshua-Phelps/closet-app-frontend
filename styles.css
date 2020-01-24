@@ -1,55 +1,89 @@
-#show-item {
-    border: grey solid 1px;
-    text-align: center;
-    padding: 1rem;
-    /* width: 15rem;
-    height: 25rem; */
-    /* display: inline-grid; */
-    margin: 1rem 2rem;
-
+.logobar {
+  height: 15vh;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: #e9ecef;
 }
 
-#item-container {
-    border: grey solid 1px;
-    text-align: left;
-    padding: 1rem;
-    width: 50rem;
-    height: 40rem;
-    display: inline-grid;
-    margin: 1rem 2rem;
-    /* display: flex; */
-    flex-flow: column;
-    align-items: left;
+#navbar-logo {
+  font-size: 4rem;
+  font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(29, 27, 27);
+  /* color: #e9ecef; */
 }
 
-/* #item-info {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-  } */
-  
-#item-container img {
-max-width: 40vw;
-max-height: 25vw;
+#nav-bar-clothes {
+  padding-left: 6rem;
+  padding-right: 4rem;
 }
 
-/* .item-image {
+.navbar {
+  height: 7vh;
+  margin-bottom: 10px;
+}
+
+.nav-link{
+  font-size: 22px;
+  padding-right: 1rem;
+  padding-left: 4rem;
+}
+
+.nav-item {
+  color: #e9ecef;
+}
+
+#categories {
+  padding-left: 80px;
+}
+
+#jumbotron{
+  height: 76vh;
+  margin-bottom: 0px;
+  padding-top: 40px;
+}
+
+#category-display-ul {
+  padding: 0;
+}
+
+.card {
+  text-align: center;
+  border: grey solid 1px;
+  padding: 1rem;
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+  margin: 1rem 1rem;
+ } 
+
+.img-fluid {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.item-image {
     justify-self: center;
-    height: 30rem;
-    width: auto;
-  } */
+    width: 25rem;
+    height: 25rem;
+    margin: 10px 25px 15px 6px;
+    border: 1px solid rgba(0,0,0,.125);
+}
 
-/* img {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    width: 150px;
-  } */
+.item-info {
+  padding-left: 10px;
+}
 
-/* #item-container ul {
-    align-items: left;
-} */
+#item-name {
+  margin: 10px 0px 20px 0px;
+}
 
-body {
-margin: 0;
+ul {
+  padding: 6px;
+}
+
+li {
+  list-style-type: none;
 }

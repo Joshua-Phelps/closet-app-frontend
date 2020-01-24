@@ -4,56 +4,137 @@
     <meta charset="utf-8">
     <title>Closet</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
   <body>
 
-    <!-- Nav Bar -->
-    <div id="nav-bar">
-      <ul>
-      <li>Clothes</li>
-      <li>Outfits</li>
-     </ul>
+<!-- START Logo Bar -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      
+      <nav class="logobar navbar-expand-lg">
+        <br>
+        <p id="navbar-logo">KLOSET</p>
+      </nav>
+      
     </div>
+  </div>
+</div>   
+<!-- END Logo Bar -->
 
-    <!-- Categories -->
-    <div id="categories">
-      <!-- 
-      Tops
-      Bottoms
-      Dresses
-      Outerwear
-      Shoes
-      Accessories -->
+
+<!-- START Nav Bar -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      
+      <!-- <nav class="navbar navbar-dark bg-dark"> -->
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> -->
+          <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id ="nav-bar-clothes">CLOTHES</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-bar-outfits">OUTFITS</a>
+            </li>
+          </ul>
+
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            <!-- <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button> -->
+          </form>
+
+      </nav>
+      
     </div>
+  </div>
+</div>   
+<!-- END Nav Bar -->
 
-    <!-- Show Items -->
-    <div id="show-item">
-      <div id="item-container">
-        <!-- <ul id="item-info">
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul> -->
-        <!-- <div id="item-image">
-          <div id="item-description">
-            <ul id="item-info">
 
-            </ul>
+<!-- START Main Container -->
+  <div class="container">
+
+<!-- START Jumbotron Container -->
+    <div class="jumbotron" id="jumbotron">
+
+    <!-- START Show Container -->
+    <div class="container">
+      <div class="row">
+
+          <!-- START LEFT COLUMN -->
+          <!-- Categories -->
+          <div class="col-4" id="categories">
           </div>
-        </div> -->
-      </div>
-    </div>
+          <!-- END LEFT COLUMN -->
 
-    <!-- Add Item Form -->
-    <div id="add-item">
-      <!-- 
-      image_url
-      name
-      times worn
-      favorite -->
+
+          <!-- START RIGHT COLUMN -->
+          <div class="col-8">
+            
+              <!-- START Items Gallery -->
+              <div class="container">
+                  <div class="row" id="item-container">
+                    <div class="col-4">
+                    </div>
+
+                    <div class="col-4">
+                    </div>
+                  </div>
+              </div>
+              <!-- END Items Gallery -->
+
+                <!-- START Add Item Form -->
+                <div id="add-item">
+                <form class="form" style="display: none" id="add-item-form">
+                  Name:<br>
+                  <input type="text" name="clothing-name"><br>
+                  Image URL:<br>
+                  <input type="text" name="image-url"><br>
+                  <input type="hidden" name="user-id" value="1"><br>
+                </form>
+                </div>
+                <!-- END Add Item Form -->
+
+          </div>
+          <!-- END RIGHT COLUMN -->
+
     </div>
+    <!-- END Show Container -->
+
+  </div>
+  <!-- END Jumobotron Container -->
+
+  </div>
+<!-- END Main Container -->
+
+    <!-- START Edit Outfit Form -->
+    <form class="form" style="display: none" id="outfit-edit-form">
+      Name:<br>
+      <input type="text" name="name"><br>
+      <input type="submit" value="Submit">
+    </form>
+    <!-- END Edit Outfit Form -->
 
   <!-- script stays on bottom of body -->
     <script src="./src/index.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
 </html>
