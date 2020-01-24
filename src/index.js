@@ -8,43 +8,50 @@ let outfit_items_url = "http://localhost:3000/outfit_items"
 document.addEventListener("DOMContentLoaded", () => {
     console.log("%cPage Loaded!", "color:green;")   
     
-    const navBarOutfits = document.getElementById("nav-bar-outfits")
-    navBarOutfits.addEventListener("mouseover", mouseOver)
-    navBarOutfits.addEventListener("mouseout", mouseOut)
-
-    navBarOutfits.addEventListener("click", () => {
-        clearShowDiv()
-        fetchOutfits()
-    })
-    
-    const navBarClothes = document.getElementById("nav-bar-clothes")
-    navBarClothes.addEventListener("mouseover", mouseOverToo)
-    navBarClothes.addEventListener("mouseout", mouseOutToo) 
-    
-    navBarClothes.addEventListener("click", () => {
-        // const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
-        clearShowDiv()
-        fetchItems()
-        getCategories()
-        makeAddItemFormButton()
-    })
 })
 
-let mouseOver = () => {
-    document.getElementById("nav-bar-outfits").style.color = "aqua"
-}
+// START OF Amy moved these functions (Jacob's) out of DOMContentLoaded
 
-let mouseOut = () => {
-    document.getElementById("nav-bar-outfits").style.color = "black" 
-}
+const navBarClothes = document.getElementById("nav-bar-clothes")
+// navBarClothes.addEventListener("mouseover", mouseOverToo)
+// navBarClothes.addEventListener("mouseout", mouseOutToo) 
 
-let mouseOverToo = () => {
-    document.getElementById("nav-bar-clothes").style.color = "aqua"     
-}
+navBarClothes.addEventListener("click", () => {
+    // const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
+    clearShowDiv()
+    fetchItems()
+    getCategories()
+    makeAddItemFormButton()
+})
 
-let mouseOutToo = () => {
-    document.getElementById("nav-bar-clothes").style.color = "black" 
-}
+const navBarOutfits = document.getElementById("nav-bar-outfits")
+// navBarOutfits.addEventListener("mouseover", mouseOver)
+// navBarOutfits.addEventListener("mouseout", mouseOut)
+
+navBarOutfits.addEventListener("click", () => {
+    clearShowDiv()
+    fetchOutfits()
+})
+
+// END OF Amy moved these functions (Jacob's) out of DOMContentLoaded
+
+
+
+// let mouseOver = () => {
+//     document.getElementById("nav-bar-outfits").style.color = "aqua"
+// }
+
+// let mouseOut = () => {
+//     document.getElementById("nav-bar-outfits").style.color = "black" 
+// }
+
+// let mouseOverToo = () => {
+//     document.getElementById("nav-bar-clothes").style.color = "aqua"     
+// }
+
+// let mouseOutToo = () => {
+//     document.getElementById("nav-bar-clothes").style.color = "black" 
+// }
 
 const clearShowDiv = () => {
     const showDiv = document.getElementById("item-container")
@@ -53,6 +60,8 @@ const clearShowDiv = () => {
     }
 }
 
+
+// START OF JOSH'S CODE
 const fetchItems = () => {
     fetch("http://localhost:3000/items")
     .then(resp => resp.json())
@@ -76,8 +85,6 @@ const makeItemCard = item => {
     allItemsArray.push(item)
     const itemDiv = document.createElement("div")
     itemDiv.className = "card" 
-    itemDiv.style.display = ""
-    itemDiv.classList.add("item-index")
     itemDiv.id = `item-${item.id}`
 
     const categoriesSpan = document.createElement("span")
@@ -87,10 +94,11 @@ const makeItemCard = item => {
     categoriesSpan.style.display = "none"
 
     const img = document.createElement("img")
-    img.src = item.image_url 
+    img.src = item.image_url
+    img.classList.add("img-fluid")
     
-    const h3 = document.createElement("h3")
-    h3.innerText = item["name"]
+    // const h4 = document.createElement("h4")
+    // h4.innerText = item["name"]
 
     itemDiv.addEventListener("click", () => {
         // this will remove items from showDiv and display this item 
@@ -99,8 +107,8 @@ const makeItemCard = item => {
         makeItem(item) 
     })
 
-    itemDiv.appendChild(h3)
     itemDiv.appendChild(img)
+    // itemDiv.appendChild(h4)
     itemDiv.appendChild(categoriesSpan)
 
     return itemDiv
@@ -120,6 +128,10 @@ const seperateCategories = categories => {
     const ul = document.createElement("ul")
     ul.id = "category-display-ul"
     categoriesDiv.appendChild(ul)
+
+    let categoryHeader = document.createElement("h5")
+    categoryHeader.textContent = "Categories:"
+    categoriesDiv.appendChild(categoryHeader)
 
     const ul2 = document.createElement('ul')
     ul2.id ="category-display-form-ul"
@@ -230,8 +242,10 @@ const addItemtoDB = item => {
         body: JSON.stringify(item)
     }).then(res => res.json()).then(json => appendItemToShowDiv(json))
 }
+// END OF JOSH'S CODE
 
 
+// START OF JACOB'S CODE
 const fetchOutfits = () => {
     fetch(outfits_url)   
     .then(resp => resp.json())
@@ -279,17 +293,16 @@ const displayOutfit = outfit => {
     outfitList.appendChild(favoriteOutfit)
     //outfitList.appendChild(createdAt)    
 }
+// END OF JACOB'S CODE
 
 
-
-// START AMY'S CODE
+// START OF AMY'S CODE
 const itemsArray = (itemsArray) => {
     // itemsArray.forEach(item => console.log(item))
     itemsArray.forEach(item => makeItem(item))
 }
 
 const makeItem = (item) => {
-    // let showItem = document.getElementById("show-item")
     let itemDiv = document.getElementById("item-container")
 
     let img = document.createElement("img")
@@ -298,8 +311,10 @@ const makeItem = (item) => {
     // console.log(item)
 
     let ul = document.createElement("ul")
+    ul.setAttribute("id", "item-info")
 
-    let nameLi = document.createElement("h2")
+    let nameLi = document.createElement("h5")
+    nameLi.setAttribute("id", "item-name")
     nameLi.textContent = item.name
 
     let timesWornLi = document.createElement("li")
@@ -328,6 +343,11 @@ const makeItem = (item) => {
         itemOutfitsUl.appendChild(itemOutfitsLi)
     })
     
+    let buttonsUl = document.createElement("ul")
+    let buttonsLi = document.createElement("li")
+    // buttonsLi.classList.add("item-info-buttons")
+    // buttonsLi.setAttribute("id", "item-info-buttons")
+
     // add to favorites (toggle heart button)
     let favItemBtn = document.createElement("button")
     favItemBtn.textContent = "Add to Favorites"
@@ -335,8 +355,7 @@ const makeItem = (item) => {
         // console.log(e)
     })
 
-    // add to outfit button
-    // drop down menu
+    // add to outfit button (drop down menu)
     let addItemToOutfitBtn = document.createElement("button")
     addItemToOutfitBtn.textContent = "Add to Outfit"
     addItemToOutfitBtn.addEventListener("click", () => {
@@ -358,19 +377,22 @@ const makeItem = (item) => {
         itemDiv.remove()
     })
     
-    // showItem.appendChild(itemDiv)
+    ul.appendChild(nameLi)
+    ul.appendChild(timesWornLi)
+    ul.appendChild(categoriesLi)
+    ul.appendChild(itemCategoriesUl)
+    ul.appendChild(outfitsLi)
+    ul.appendChild(itemOutfitsUl)
+
     itemDiv.appendChild(img)
     itemDiv.appendChild(ul)
-    itemDiv.appendChild(nameLi)
-    itemDiv.appendChild(timesWornLi)
-    itemDiv.appendChild(categoriesLi)
-    itemDiv.appendChild(itemCategoriesUl)
-    itemDiv.appendChild(outfitsLi)
-    itemDiv.appendChild(itemOutfitsUl)
-    itemDiv.appendChild(favItemBtn)
-    itemDiv.appendChild(addItemToOutfitBtn)
-    itemDiv.appendChild(editItemBtn)
-    itemDiv.appendChild(deleteItemBtn)
+    itemDiv.appendChild(buttonsUl)
+
+    buttonsUl.appendChild(buttonsLi)
+    buttonsLi.appendChild(favItemBtn)
+    buttonsLi.appendChild(addItemToOutfitBtn)
+    buttonsLi.appendChild(editItemBtn)
+    buttonsLi.appendChild(deleteItemBtn)
 
     // console.log(item)
 }
@@ -382,6 +404,10 @@ const makeItem = (item) => {
 //     })
 // }
 
+// END OF AMY'S CODE
+
+
+// START OF JACOB'S CODE #2
 const showOutfit = outfit => {
     clearShowDiv()
     const container = document.getElementById("item-container")
@@ -475,3 +501,4 @@ const updateOutfit = outfit => {
         body: JSON.stringify(outfit)
     }).then(res => res.json()).then(json => showOutfit(json))
 }
+// END OF JACOB'S CODE #2
