@@ -19,6 +19,7 @@ const navBarClothes = document.getElementById("nav-bar-clothes")
 navBarClothes.addEventListener("click", () => {
     // const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
     clearShowDiv()
+    clearCategoriesDiv()
     fetchItems()
     getCategories()
     makeAddItemFormButton()
@@ -30,6 +31,7 @@ const navBarOutfits = document.getElementById("nav-bar-outfits")
 
 navBarOutfits.addEventListener("click", () => {
     clearShowDiv()
+    clearCategoriesDiv()
     fetchOutfits()
 })
 
@@ -57,6 +59,13 @@ const clearShowDiv = () => {
     const showDiv = document.getElementById("item-container")
     while (showDiv.firstChild){
         showDiv.removeChild(showDiv.firstChild)
+    }
+}
+
+const clearCategoriesDiv = () => {
+    const catDiv = document.getElementById("categories")
+    while (catDiv.firstChild){
+        catDiv.removeChild(catDiv.firstChild)
     }
 }
 
@@ -149,6 +158,19 @@ const seperateCategories = categories => {
         li.innerText = category["name"]
         li.appendChild(input)
         ul2.appendChild(li)
+    })
+}
+
+const addCheckboxForCategories = categories => {
+    categories.forEach(category => {
+        const li = document.createElement("li")
+        const input = document.createElement("INPUT")
+        input.setAttribute("type", "checkbox")
+        input.name = category.id
+        input.className = "checkbox-submit"
+        li.innerText = category["name"]
+        li.appendChild(input)
+        // ul2.appendChild(li)
     })
 }
 
@@ -367,6 +389,7 @@ const makeItem = (item) => {
     let addItemToOutfitBtn = document.createElement("button")
     addItemToOutfitBtn.textContent = "Add to Outfit"
     addItemToOutfitBtn.addEventListener("click", () => {
+        showAddToOutfitForm(item)
         // console.log(e)
     })
 
@@ -375,6 +398,7 @@ const makeItem = (item) => {
     editItemBtn.textContent = "Edit Item"
     editItemBtn.addEventListener("click", () => {
         // console.log(e)
+        clearCategoriesDiv()
         showEditItemForm(item) 
     })
 
@@ -408,8 +432,80 @@ const makeItem = (item) => {
     // console.log(item)
 }
 
+const showAddToOutfitForm = item => {
+    clearCategoriesDiv()
+    const dropDown = document.getElementById("dropdown")
+    dropDown.style.display = ''
+    const dropDownDiv = document.getElementById('categories')
+    dropDownDiv.appendChild(dropDown) 
+    fetchOutfitsForDropDown().then(json => displayOutfitsDropDown(json, item))
+}
+
+//trying to make so outfits wont display if item is alrwady if outfit 
+// const displayOutfitsDropDown = (outfits, item) => {
+//     const outfitIds = outfits.map(outfit => outfit.id)
+//     const outfitArray = Array.from(outfits)
+//     console.log(outfitArray)
+//     if (item.outfits){
+//         const itemOutfitIds = item.outfits.map(outfit => outfit.id)
+//         itemOutfitIds.forEach(id => {
+//             if (!outfitIds.includes(id)) {
+//                 outfitArray.filter( out => {
+//                     out.id === id 
+//                 })
+//             }
+
+//         })
+
+//     } 
+//     console.log(outfitArray)
+//     console.log(outfitIds)
+// }
+
+const displayOutfitsDropDown = (outfits, item) => {
+    // const dropDownContent = document.getElementById("dropdown-content")
+    const dropDownSelect = document.getElementById("dropdown-select")
+    outfits.forEach(outfit => {
+        const option = document.createElement('option')
+        option.value = outfit.id 
+        option.innerText = outfit.name
+        dropDownSelect.appendChild(option)
+    })
+    const dropDownForm = document.getElementById("dropdown")
+    dropDownForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        console.log(e)
+        console.log(e.target[0].value)
+        itemOutfit = {
+            item_id: item.id,
+            outfit_id: parseInt(e.target[0].value)
+        }
+        addItemToOutfit(itemOutfit)
+    })
+}
+
+const addItemToOutfit = itemOutfit => {
+    console.log(itemOutfit)
+    fetch(`http://localhost:3000/outfit_items`, {
+        method: "POST", 
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }, 
+        body: JSON.stringify(itemOutfit)
+    }).then(res => res.json()).then(json => console.log(json))
+}
+
+
+const fetchOutfitsForDropDown = () => {
+    return fetch('http://localhost:3000/outfits')   
+    .then(resp => resp.json())
+}
+
 const showEditItemForm = item => {
     const editForm = document.getElementById('edit-form')
+    const catDiv = document.getElementById('categories')
+    catDiv.appendChild(editForm)
     editForm.style.display = ''
     editForm['item-name'].value = item.name 
     editForm['item-image-url'].value = item.image_url 
