@@ -14,36 +14,32 @@
   </head>
   <body>
 
-    <!-- Nav Bar -->
-    <div id="nav-bar">
-      <ul>
-      <li id="nav-bar-outfits"><span id ="nav-bar-outfits-clicked">Outfits</span></li> 
-      <br> 
-      <li id ="nav-bar-clothes"><span id ="nav-bar-clothes-clicked">Clothes</span></li>
-     </ul>
+<!-- START Logo Bar -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      
+      <nav class="logobar navbar-expand-lg">
+        <br>
+        <p id="navbar-logo">KLOSET</p>
+      </nav>
+      
     </div>
+  </div>
+</div>   
+<!-- END Logo Bar -->
 
-    <!-- Categories -->
-    <div id="categories">
-      <!-- 
-      Tops
-      Bottoms
-      Dresses
-      Outerwear
-      Shoes
-      Accessories -->
-    </div>
 
-    <!-- Show Items -->
-    <div id="show-item">
-      <div id="item-container">
-        <ul id="item-info">
-          <!-- <li class="item-name"></li>
-          <li class="times-worn"></li>
-          <li class="item-categories"></li>
-          <li class="item-outfits"></li> -->
-        </ul>
-    </div>
+<!-- START Nav Bar -->
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      
+      <!-- <nav class="navbar navbar-dark bg-dark"> -->
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> -->
+          <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
       <!-- Edit Item Form -->
       <div id="edit-item">
@@ -57,18 +53,92 @@
           <input type="text" name="item-category"><br> -->
         </form>
       </div>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id ="nav-bar-clothes">CLOTHES</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-bar-outfits">OUTFITS</a>
+            </li>
+          </ul>
+
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            <!-- <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button> -->
+          </form>
+
+      </nav>
+      
+    </div>
+  </div>
+</div>   
+<!-- END Nav Bar -->
+
+
+<!-- START Main Container -->
+  <div class="container">
+
+<!-- START Jumbotron Container -->
+    <div class="jumbotron" id="jumbotron">
+
+    <!-- START Show Container -->
+    <div class="container">
+      <div class="row">
+
+          <!-- START LEFT COLUMN -->
+          <!-- Categories -->
+          <div class="col-4" id="categories">
+          </div>
+          <!-- END LEFT COLUMN -->
+
+
+          <!-- START RIGHT COLUMN -->
+          <div class="col-8">
+            
+              <!-- START Items Gallery -->
+              <div class="container">
+                  <div class="row" id="item-container">
+                    <div class="col-4">
+                    </div>
+
+                    <div class="col-4">
+                    </div>
+                  </div>
+              </div>
+              <!-- END Items Gallery -->
+
+                <!-- START Add Item Form -->
+                <div id="add-item">
+                <form class="form" style="display: none" id="add-item-form">
+                  Name:<br>
+                  <input type="text" name="clothing-name"><br>
+                  Image URL:<br>
+                  <input type="text" name="image-url"><br>
+                  <input type="hidden" name="user-id" value="1"><br>
+                </form>
+                </div>
+                <!-- END Add Item Form -->
+
+          </div>
+          <!-- END RIGHT COLUMN -->
 
     </div>
+    <!-- END Show Container -->
 
+  </div>
+  <!-- END Jumobotron Container -->
 
-    <!-- Add Item Form -->
-    <div id="add-item">
-      <!-- 
-      image_url
-      name
-      times worn
-      favorite -->
-    </div>
+  </div>
+<!-- END Main Container -->
+
+    <!-- START Edit Outfit Form -->
+    <form class="form" style="display: none" id="outfit-edit-form">
+      Name:<br>
+      <input type="text" name="name"><br>
+      <input type="submit" value="Submit">
+    </form>
+    <!-- END Edit Outfit Form -->
 
     <form class="form" style="display: none" id="add-item-form">
       Name:<br>
