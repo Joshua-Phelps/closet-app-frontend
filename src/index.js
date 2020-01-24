@@ -20,6 +20,7 @@ navBarClothes.addEventListener("click", () => {
     // const navBarClothesSpan = document.getElementById("nav-bar-clothes-span")
     clearShowDiv()
     clearCategoriesDiv()
+    clearAddItemDiv()
     fetchItems()
     getCategories()
     makeAddItemFormButton()
@@ -35,6 +36,12 @@ navBarOutfits.addEventListener("click", () => {
     fetchOutfits()
 })
 
+const clearAddItemDiv = () => {
+    const div = document.getElementById('add-item')
+    while (div.firstChild){
+        div.removeChild(div.firstChild)
+    }
+}
 // END OF Amy moved these functions (Jacob's) out of DOMContentLoaded
 
 
@@ -112,6 +119,7 @@ const makeItemCard = item => {
     itemDiv.addEventListener("click", () => {
         // this will remove items from showDiv and display this item 
         console.log(item)
+        clearCategoriesDiv()
         clearShowDiv()
         makeItem(item) 
     })
@@ -122,6 +130,8 @@ const makeItemCard = item => {
 
     return itemDiv
 }
+
+
 
 const getCategories = () => {
     fetch(categories_url)
@@ -364,10 +374,19 @@ const makeItem = (item) => {
 
     // iterate thru outfits array
     let itemOutfitsUl = document.createElement("ul")
+    itemOutfitsUl.id = "item-outfits-display"
+    
+    // updateOutfitsDisplayDOM(item)
     item.outfits.forEach(outfit => {
         let itemOutfitsLi = document.createElement("li")
-        itemOutfitsLi.textContent = outfit.name
-
+        itemOutfitsLi.textContent = `${outfit.name} ` 
+        const removeButton = document.createElement('button')
+        removeButton.innerText = "Remove"
+        removeButton.addEventListener("click", () => {
+            deleteItemOutFit(item, outfit)
+            itemOutfitsLi.remove()
+        })
+        itemOutfitsLi.appendChild(removeButton)   
         itemOutfitsUl.appendChild(itemOutfitsLi)
     })
     
@@ -375,7 +394,7 @@ const makeItem = (item) => {
     let buttonsLi = document.createElement("li")
     // buttonsLi.classList.add("item-info-buttons")
     // buttonsLi.setAttribute("id", "item-info-buttons")
-
+    
     // add to favorites (toggle heart button)
     let favItemBtn = document.createElement("button")
     favItemBtn.textContent = "Add to Favorites"
@@ -384,11 +403,14 @@ const makeItem = (item) => {
         item.favorite = !item.favorite 
         updateItem(item).then(json => updateFavoriteDisplay(json, favoriteDisplay))
     })
-
+    
     // add to outfit button (drop down menu)
     let addItemToOutfitBtn = document.createElement("button")
     addItemToOutfitBtn.textContent = "Add to Outfit"
     addItemToOutfitBtn.addEventListener("click", () => {
+        const dropDown = document.getElementById('dropdown')
+        dropDown.style.display = ''
+        clearCategoriesDiv()
         showAddToOutfitForm(item)
         // console.log(e)
     })
@@ -401,11 +423,12 @@ const makeItem = (item) => {
         clearCategoriesDiv()
         showEditItemForm(item) 
     })
-
+    
     // delete item button
     let deleteItemBtn = document.createElement("button")
     deleteItemBtn.textContent = "Remove From Closet"
     deleteItemBtn.addEventListener("click", () => {
+        deleteItem(item)
         itemDiv.remove()
     })
     
@@ -415,7 +438,7 @@ const makeItem = (item) => {
     ul.appendChild(itemCategoriesUl)
     ul.appendChild(outfitsLi)
     ul.appendChild(itemOutfitsUl)
-
+    
     itemDiv.appendChild(img)
 
     itemDiv.appendChild(favoriteDisplay)
@@ -433,7 +456,7 @@ const makeItem = (item) => {
 }
 
 const showAddToOutfitForm = item => {
-    clearCategoriesDiv()
+    // clearCategoriesDiv()
     const dropDown = document.getElementById("dropdown")
     dropDown.style.display = ''
     const dropDownDiv = document.getElementById('categories')
@@ -462,6 +485,12 @@ const showAddToOutfitForm = item => {
 //     console.log(outfitIds)
 // }
 
+const deleteItem = item => {
+    fetch(`http://localhost:3000/items/${item.id}`, {
+        method: "DELETE"
+    })
+}
+
 const displayOutfitsDropDown = (outfits, item) => {
     // const dropDownContent = document.getElementById("dropdown-content")
     const dropDownSelect = document.getElementById("dropdown-select")
@@ -480,20 +509,61 @@ const displayOutfitsDropDown = (outfits, item) => {
             item_id: item.id,
             outfit_id: parseInt(e.target[0].value)
         }
-        addItemToOutfit(itemOutfit)
+        addItemToOutfit(itemOutfit).then(json => {
+            clearItemOutfitDisplay()
+            updateOutfitsDisplayDOM(json["item"])
+        })
+        dropDownForm.style.display = 'none'
     })
 }
 
+const clearItemOutfitDisplay = () => {
+    let itemOutfitsUl = document.getElementById('item-outfits-display')
+    while (itemOutfitsUl.firstChild) {
+        itemOutfitsUl.removeChild(itemOutfitsUl.firstChild)
+    }
+}
+
+const updateOutfitsDisplayDOM = (item) => {
+    let itemOutfitsUl = document.getElementById('item-outfits-display')
+    item.outfits.forEach(outfit => {
+        let itemOutfitsLi = document.createElement("li")
+        itemOutfitsLi.textContent = outfit.name
+        const removeButton = document.createElement('button')
+        removeButton.innerText = "Remove"
+        removeButton.addEventListener("click", () => {
+            deleteItemOutFit(item, outfit)
+            itemOutfitsLi.remove()
+        })
+        itemOutfitsLi.appendChild(removeButton)
+        itemOutfitsUl.appendChild(itemOutfitsLi)
+    })
+}
+
+const deleteItemOutFit = (item, outfit) => {
+    fetch(`http://localhost:3000/outfit_items/1`, {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            item_id: item.id,
+            outfit_id: outfit.id 
+        })
+    })
+}
+
+
 const addItemToOutfit = itemOutfit => {
-    console.log(itemOutfit)
-    fetch(`http://localhost:3000/outfit_items`, {
+    return fetch(`http://localhost:3000/outfit_items`, {
         method: "POST", 
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         }, 
         body: JSON.stringify(itemOutfit)
-    }).then(res => res.json()).then(json => console.log(json))
+    }).then(res => res.json())
 }
 
 
