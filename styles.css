@@ -6,18 +6,8 @@
     height: 25rem; */
     /* display: inline-grid; */
     margin: 1rem 2rem;
-
-#show-item {
-  border: grey solid 1px;
-  column-count: 2;
-  column-gap: 40px;
-  text-align: left;
-  padding: 1rem;
-  /* width: 15rem;
-  height: 25rem; */
-  /* display: inline-grid; */
-  /* margin: 1rem 2rem; */
 }
+
 img {
     max-width:100%;
     height:auto;

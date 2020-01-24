@@ -65,7 +65,7 @@ const seperateItems = items => {
 
 
 const appendItemToShowDiv = (item) => {
-    const showDiv = document.getElementById("show-item")
+    // const showDiv = document.getElementById("show-item")
     const container = document.getElementById("item-container")
     const itemDiv = makeItemCard(item)
     container.appendChild(itemDiv)
@@ -76,7 +76,7 @@ const makeItemCard = item => {
     allItemsArray.push(item)
     const itemDiv = document.createElement("div")
     itemDiv.className = "card" 
-    itemDiv.style.display = ""
+    itemDiv.style = "width: 18rem;"
     itemDiv.classList.add("item-index")
     itemDiv.id = `item-${item.id}`
 
@@ -88,6 +88,7 @@ const makeItemCard = item => {
 
     const img = document.createElement("img")
     img.src = item.image_url 
+    img.className = "card-img-top"
     
     const h3 = document.createElement("h3")
     h3.innerText = item["name"]
@@ -221,6 +222,7 @@ const showAddItemForm = () => {
 }
 
 const addItemtoDB = item => {
+    console.log(item)
     fetch(items_url, {
         method: "POST",
         headers: {
@@ -230,7 +232,7 @@ const addItemtoDB = item => {
         body: JSON.stringify(item)
     }).then(res => res.json()).then(json => appendItemToShowDiv(json))
 }
-
+// appendItemToShowDiv(json)
 
 const fetchOutfits = () => {
     fetch(outfits_url)   
@@ -299,6 +301,10 @@ const makeItem = (item) => {
 
     let ul = document.createElement("ul")
 
+    let favoriteDisplay = document.createElement('p')
+    updateFavoriteDisplay(item, favoriteDisplay)
+
+
     let nameLi = document.createElement("h2")
     nameLi.textContent = item.name
 
@@ -333,6 +339,8 @@ const makeItem = (item) => {
     favItemBtn.textContent = "Add to Favorites"
     favItemBtn.addEventListener("click", () => {
         // console.log(e)
+        item.favorite = !item.favorite 
+        updateItem(item).then(json => updateFavoriteDisplay(json, favoriteDisplay))
     })
 
     // add to outfit button
@@ -348,7 +356,7 @@ const makeItem = (item) => {
     editItemBtn.textContent = "Edit Item"
     editItemBtn.addEventListener("click", () => {
         // console.log(e)
-        // editItemForm(item) 
+        showEditItemForm(item) 
     })
 
     // delete item button
@@ -360,6 +368,9 @@ const makeItem = (item) => {
     
     // showItem.appendChild(itemDiv)
     itemDiv.appendChild(img)
+
+    itemDiv.appendChild(favoriteDisplay)
+
     itemDiv.appendChild(ul)
     itemDiv.appendChild(nameLi)
     itemDiv.appendChild(timesWornLi)
@@ -375,6 +386,64 @@ const makeItem = (item) => {
     // console.log(item)
 }
 
+const showEditItemForm = item => {
+    const editForm = document.getElementById('edit-form')
+    editForm.style.display = ''
+    editForm['item-name'].value = item.name 
+    editForm['item-image-url'].value = item.image_url 
+    item.categories.forEach(category => {
+        const li = document.createElement("li")
+        const input = document.createElement("INPUT")
+        input.setAttribute("type", "checkbox")
+        input.name = category.id
+        input.checked = true 
+        input.className = "checkbox-edit-submit"
+        li.innerText = category["name"]
+        li.appendChild(input)
+        editForm.appendChild(li)
+    })
+    editForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let checkboxes = Array.from(document.getElementsByClassName("checkbox-edit-submit"))
+        let checked = []
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked === true){
+                console.log(checkbox['name'])
+                checked.push(parseInt(checkbox['name']))
+            } 
+        })
+        editedItem = {
+            name: e.target['item-name'].value,
+            image_url: e.target['item-image-url'].value,
+            category_ids: checked,
+            favorite: item.favorite,
+            times_worn: item.times_worn,
+            id: item.id 
+        }
+        updateItem(editedItem).then(json => console.log(json))
+    })
+} 
+
+
+
+const updateFavoriteDisplay = (item, favoriteDisplay) => {
+    if (item.favorite === true){
+        favoriteDisplay.innerText = "<3"
+    } else {
+        favoriteDisplay.innerText = '</3'
+    }
+}
+
+const updateItem = item => {
+    return fetch(`http://localhost:3000/items/${item.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": 'application/json',
+            "Accept": 'application/json'
+        },
+        body: JSON.stringify(item)
+    }).then(res => res.json())
+}
 // add deleteItem() to 
 // const deleteItem = (item) => {
 //     fetch(`http://localhost:3000/items/${item}`, {
